@@ -4,8 +4,7 @@
 #' smooth terms contained in the model. If more than one smooth is present, the
 #' different smooth are faceted.
 #'
-#' @inheritParams get_term
-#' @param x A data frame or object of class \code{pamm}.
+#' @param x A data frame or object of class \code{ped}.
 #' @param ... Further arguments passed to \code{\link{get_terms}}
 #' @import ggplot2
 #' @return A \code{\link[ggplot2]{ggplot}} object.
@@ -19,7 +18,6 @@ gg_smooth <- function(x, ...) {
 }
 
 #' @rdname gg_smooth
-#' @inherit gg_smooth
 #' @param fit A model object.
 #' @export
 gg_smooth.default <- function(x, fit, ...) {

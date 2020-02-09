@@ -11,7 +11,6 @@
 #' @param cut A sequence of time-points starting with 0.
 #' @import dplyr
 #' @import Formula
-#' @importFrom msm rpexp
 #' @importFrom lazyeval f_eval
 #' @importFrom tidyr replace_na
 #' @examples
@@ -114,7 +113,7 @@ sim_pexp <- function(formula, data, cut) {
   # construct eta for time-constant part
   ped  <- split_data(
       formula = Surv(time, status)~.,
-      data    = select_if (data, is_atomic),
+      data    = select_if(data, is_atomic),
       cut     = cut,
       id      = "id") %>%
     rename("t" = "tstart") %>%
@@ -123,8 +122,11 @@ sim_pexp <- function(formula, data, cut) {
   # construct eta for time-dependent part
   if (!is.null(f2)) {
     terms_f2  <- terms(f2, specials = "fcumu")
-    f2_ev     <- map(attr(terms_f2, "term.labels"),
-      ~ eval(expr = parse(text = .x)))
+    f2_ev     <- list()
+    f2_tl <- attr(terms_f2, "term.labels")
+    for (i in seq_along(f2_tl)) {
+      f2_ev[[i]] <- eval(expr = parse(text = f2_tl[[i]]), envir = .GlobalEnv)
+    }
     ll_funs   <- map(f2_ev, ~.x[["ll_fun"]])
     tz_vars   <- map_chr(f2_ev, ~.x[["vars"]][1])
     cumu_funs <- map(f2_ev, ~.x[["f_xyz"]])
@@ -177,8 +179,10 @@ sim_pexp <- function(formula, data, cut) {
     times = attr(sim_df, "id_n"))
   attr(sim_df, "sim_formula") <- formula
 
+  class(sim_df) <- c("sim_df", class(unped(sim_df)))
+
   if (any(!map_lgl(sim_df, is_atomic))) {
-    class(sim_df) <- c("nested_fdf", "sim_sdf", class(sim_df))
+    class(sim_df) <- c("nested_fdf", class(sim_df))
   }
 
   sim_df
@@ -240,7 +244,10 @@ fcumu <- function(..., by = NULL, f_xyz, ll_fun) {
     unlist()
   vars <- vars[vars != "t"]
 
-  list(vars = vars, f_xyz = f_xyz, ll_fun = ll_fun)
+  list(
+    vars   = vars,
+    f_xyz  = f_xyz,
+    ll_fun = ll_fun)
 
 }
 
@@ -257,11 +264,7 @@ eta_cumu <- function(data, fcumu, cut, ...) {
   comb_df <- combine_df(
     data.frame(t = cut),
     select(data, one_of("id", vars)))
-  if(tidyr_new_interface()) {
-    comb_df <- comb_df %>% unnest(cols = -one_of("id"))
-  } else {
-    comb_df <- comb_df %>% unnest()
-  }
+  comb_df <- comb_df %>% unnest(cols = -one_of("id"))
   comb_df %>%
     group_by(.data$id, .data$t) %>%
     mutate(

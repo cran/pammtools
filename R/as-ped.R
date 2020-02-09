@@ -25,12 +25,13 @@
 #' on the left-hand-side and covariate specification on the right-hand-side (RHS).
 #' The RHS can be an extended formula, which specifies how TDCs should be transformed
 #' using specials \code{concurrent} and \code{cumulative}.
-#' @inheritParams survival::survSplit
 #' @param cut Break points, used to partition the follow up into intervals.
 #' If unspecified, all unique event times will be used.
 #' @param max_time If \code{cut} is unspecified, this will be the last
 #' possible event time. All event times after \code{max_time}
 #' will be administratively censored at \code{max_time}.
+#' @param tdc_specials A character vector. Names of potential specials in
+#' \code{formula} for concurrent and or cumulative effects.
 #' @param ... Further arguments passed to the \code{data.frame} method and
 #' eventually to \code{\link[survival]{survSplit}}
 #' @importFrom Formula Formula
@@ -40,35 +41,38 @@
 #' tumor[1:3, ] %>% as_ped(Surv(days, status)~ age + sex)
 #' @return A data frame class \code{ped} in piece-wise exponential data format.
 #' @export
-as_ped <- function(data, formula, ...) {
+as_ped <- function(data, ...) {
   UseMethod("as_ped", data)
 }
 
 #' @rdname as_ped
-#' @inherit as_ped
 #' @export
 as_ped.data.frame <- function(
   data,
   formula,
-  cut      = NULL,
-  max_time = NULL,
+  cut          = NULL,
+  max_time     = NULL,
+  tdc_specials = c("concurrent", "cumulative"),
   ...) {
 
   status_error(data, formula)
+  assert_subset(tdc_specials, c("concurrent", "cumulative"))
 
-  dots          <- list(...)
-  dots$data     <- data
-  dots$formula  <- formula(Formula(formula), lhs = 1, rhs = 1)
-  dots$cut      <- cut
+  dots <- list(...)
+  dots$data <- data
+  formula <- get_ped_form(formula, data = data, tdc_specials = tdc_specials)
+  dots$formula  <- formula
+  dots$cut <- cut
   dots$max_time <- max_time
   ped <- do.call(split_data, dots)
   attr(ped, "time_var") <- get_lhs_vars(formula)[1]
+  attr(ped, "status_var") <- get_lhs_vars(formula)[2]
+
   ped
 
 }
 
 #' @rdname as_ped
-#' @inherit as_ped
 #' @export
 as_ped.nested_fdf <- function(data, formula, ...) {
 
@@ -120,9 +124,12 @@ as_ped.nested_fdf <- function(data, formula, ...) {
 }
 
 #' @rdname as_ped
-#' @inherit as_ped
 #' @export
-as_ped.list <- function(data, formula, ...) {
+as_ped.list <- function(
+  data,
+  formula,
+  tdc_specials = c("concurrent", "cumulative"),
+  ...) {
 
   assert_class(data, "list")
   assert_class(formula, "formula")
@@ -130,22 +137,24 @@ as_ped.list <- function(data, formula, ...) {
   status_error(data[[1]], formula)
 
   nl    <- length(data)
-  form  <- Formula(formula)
-  n_rhs <- length(form)[2]
+  # form  <- Formula(formula)
+  has_tdc <- has_tdc_form(formula, tdc_specials = tdc_specials)
 
-  if (nl == 1 & n_rhs == 1) {
-    ped <- data[[1]] %>% as_ped(formula = form, ...)
+  if (nl == 1 & !has_tdc) {
+    ped <- data[[1]] %>% as_ped(formula = formula, tdc_specials = tdc_specials, ...)
   } else {
-    if (nl == 2 & n_rhs == 1) {
+    if (nl == 2 & !has_tdc) {
     stop("Two data sets provided in 'data' but no specification of
       time-dependent covariate effects in 'formula'")
     } else {
 
-      nested_fdf <- nest_tdc(data, form, ...)
+      nested_fdf <- nest_tdc(data, formula, ...)
       ped <- as_ped(nested_fdf, formula, ...)
+
     }
   }
   attr(ped, "time_var") <- get_lhs_vars(formula)[1]
+  attr(ped, "status_var") <- get_lhs_vars(formula)[2]
   ped
 
 }
@@ -154,3 +163,35 @@ as_ped.list <- function(data, formula, ...) {
 #' @param x any R object.
 #' @export
 is.ped <- function(x) inherits(x, "ped")
+
+
+#' @rdname as_ped
+#' @param newdata A new data set (\code{data.frame}) that contains the same
+#' variables that were used to create the PED object (code{data}).
+#' @export
+as_ped.ped <- function(data, newdata, ...) {
+
+  if (is.ped(newdata)) {
+    stop("newdata already in ped format.")
+  }
+
+  trafo_args <- attr(data, "trafo_args")
+  trafo_args[["data"]] <- newdata
+  do.call(split_data,  trafo_args)
+
+}
+
+
+
+#' @rdname as_ped
+#' @export
+as_ped.pamm <- function(data, newdata, ...) {
+
+  if (is.ped(newdata)) {
+    stop("newdata already in ped format.")
+  }
+  trafo_args      <- data[["trafo_args"]]
+  trafo_args$data <- newdata
+  do.call(split_data, trafo_args)
+
+}

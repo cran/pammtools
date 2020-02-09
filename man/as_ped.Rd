@@ -6,18 +6,30 @@
 \alias{as_ped.nested_fdf}
 \alias{as_ped.list}
 \alias{is.ped}
+\alias{as_ped.ped}
+\alias{as_ped.pamm}
 \title{Transform data to Piece-wise Exponential Data (PED)}
 \usage{
-as_ped(data, formula, ...)
+as_ped(data, ...)
 
-\method{as_ped}{data.frame}(data, formula, cut = NULL, max_time = NULL,
-  ...)
+\method{as_ped}{data.frame}(
+  data,
+  formula,
+  cut = NULL,
+  max_time = NULL,
+  tdc_specials = c("concurrent", "cumulative"),
+  ...
+)
 
 \method{as_ped}{nested_fdf}(data, formula, ...)
 
-\method{as_ped}{list}(data, formula, ...)
+\method{as_ped}{list}(data, formula, tdc_specials = c("concurrent", "cumulative"), ...)
 
 is.ped(x)
+
+\method{as_ped}{ped}(data, newdata, ...)
+
+\method{as_ped}{pamm}(data, newdata, ...)
 }
 \arguments{
 \item{data}{Either an object inheriting from data frame or in case of
@@ -26,13 +38,13 @@ contains the time-to-event information and static covariates while the second
 (and potentially further data frames) contain information on time-dependent
 covariates and the times at which they have been observed.}
 
+\item{...}{Further arguments passed to the \code{data.frame} method and
+eventually to \code{\link[survival]{survSplit}}}
+
 \item{formula}{A two sided formula with a \code{\link[survival]{Surv}} object
 on the left-hand-side and covariate specification on the right-hand-side (RHS).
 The RHS can be an extended formula, which specifies how TDCs should be transformed
 using specials \code{concurrent} and \code{cumulative}.}
-
-\item{...}{Further arguments passed to the \code{data.frame} method and
-eventually to \code{\link[survival]{survSplit}}}
 
 \item{cut}{Break points, used to partition the follow up into intervals.
 If unspecified, all unique event times will be used.}
@@ -41,7 +53,13 @@ If unspecified, all unique event times will be used.}
 possible event time. All event times after \code{max_time}
 will be administratively censored at \code{max_time}.}
 
+\item{tdc_specials}{A character vector. Names of potential specials in
+\code{formula} for concurrent and or cumulative effects.}
+
 \item{x}{any R object.}
+
+\item{newdata}{A new data set (\code{data.frame}) that contains the same
+variables that were used to create the PED object (code{data}).}
 }
 \value{
 A data frame class \code{ped} in piece-wise exponential data format.
