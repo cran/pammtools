@@ -1,3 +1,7 @@
+# pammtools 0.2.2
+* CRAN fix, removed plyr dependency (see issue #141)
+* `as_ped.ped` now also works for transformations with time-dependent covariates
+
 # pammtools 0.2.1
 * Adds a new interface for model estimation called `pamm`, which is a thin wrapper
 around `mgcv::gam` with some arguments pre-set.
@@ -133,7 +137,7 @@ respective mean or modus values. For data of class `ped` or `fped` `make_newdata
 
 * Added functionality to flexibly simulate data from PEXP including cumulative effects, see `?sim_pexp`
 
-* Added functionality to calculate Aaalen-model style cumulative coefficients,
+* Added functionality to calculate Aalen-model style cumulative coefficients,
 see `?cumulative_coefficient`
 
 
