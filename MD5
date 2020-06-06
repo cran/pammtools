@@ -1,7 +1,7 @@
-48495deb69558493753bf2b1158e1fd1 *DESCRIPTION
+d0fdcf18d3aca37d89579e47a1affda5 *DESCRIPTION
 ca61e01cf34f5d70bd57b9a4a30d24ec *LICENSE
 98661e73cc9b9b21f5f9cf866f54bc8a *NAMESPACE
-e921b10b3426f2beecbbf86a96144894 *NEWS.md
+0b9e10d6e65ca7d66b4820c69b33083d *NEWS.md
 b49b37b9dd15f58ab95fc6febcddcffc *R/add-functions.R
 8851d26a38aa5f404c2bedfc4fdce31f *R/as-ped.R
 ef5a3925ac38d05e4c346f974bb7610c *R/convenience-plots.R
@@ -27,7 +27,7 @@ a8f3d70ac9957bb89a3335be59dba83d *R/predict.R
 891fd91ead812e815aa87c1b048568e2 *R/sim-pexp.R
 35e2aa1f518b1919e5a0d1a288a20103 *R/split-data.R
 13f72a896fb5145866545d6f66960cbf *R/tidiers.R
-e617b85cbee2cd25536abcd6dd490242 *R/tidyverse-methods.R
+dedde79e58668033b4dc3bddde86a820 *R/tidyverse-methods.R
 9c3e88806cf5a7ae2ac18c3fa93965ad *R/transform-tdc.R
 8d2487dbf45064f33b08e5a80830b68e *R/utils-pipe.R
 19d682f7c3294ae8eb98441791c85561 *R/viz-elra.R
@@ -53,7 +53,7 @@ c634103495de152fbd207f5508ea0426 *man/combine_df.Rd
 5d5907c4879c6a59abf056a7f4565d9b *man/compute_cumu_diff.Rd
 f318647d52f86416c7faeb5dab14d1fe *man/cumulative_coefficient.Rd
 06a8b2755addf58f982af0d93711f045 *man/daily.Rd
-090b09459af1bd99c131fb582398fa44 *man/dplyr_verbs.Rd
+d1c7cf3c83077b251bde16606400030f *man/dplyr_verbs.Rd
 34389f1b1fe0195b48917130e821ed1f *man/elra_matrix.Rd
 0394c6b1c3536b0bc76fb9b0849f1a6c *man/extub_event.Rd
 902f3ad830b5e604402f5d57c52728f9 *man/fcumu.Rd
@@ -112,7 +112,7 @@ d7bd704f2980cd65464de3983b18ffb3 *man/tidy_smooth.Rd
 d2e4d5c85f2bb9eb08e44d7d223f6e92 *tests/testthat.R
 d4ff9f028ecf677b2aa8fc012f99038b *tests/testthat/test-add-functions.R
 5801713b5d63ceec6f20b6c7f169d57e *tests/testthat/test-as-ped.R
-5948b2104fe7c606007ee13914bb840e *tests/testthat/test-cumulative-coefficients.R
+846b652972194986e4164f52b9bae284 *tests/testthat/test-cumulative-coefficients.R
 790be3f62431add4b8eb7e5398e41a63 *tests/testthat/test-cumulative-effect.R
 36e944a4330618b15f432636785d2a09 *tests/testthat/test-formula-utils.R
 8252d16fdbdd5441eb94db9586591979 *tests/testthat/test-interval-functions.R
