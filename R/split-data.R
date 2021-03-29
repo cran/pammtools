@@ -5,13 +5,6 @@
 #' @import survival checkmate dplyr
 #' @importFrom stats as.formula update
 #' @importFrom purrr set_names
-#' @examples
-#' data("veteran", package="survival")
-#' head(veteran)
-#' ped <- split_data(Surv(time, status)~trt + age, data=veteran,
-#'    cut=c(0, 100, 400), id="id")
-#' head(ped)
-#' class(ped) # class ped (piece-wise exponential data)
 #' @seealso \code{\link[survival]{survSplit}}
 #' @export
 #' @keywords internal
@@ -255,7 +248,7 @@ split_data_recurrent <- function(
 
   ## set class and and attributes
   class(split_df) <- c("ped", class(split_df))
-  attr(split_df, "breaks") <- cut
+  attr(split_df, "breaks") <- cuts
   attr(split_df, "id_var") <- dots_in$id <- id_var
   attr(split_df, "intvars") <- c(id_var, "tstart", "tend", "interval", "offset",
     "ped_status")

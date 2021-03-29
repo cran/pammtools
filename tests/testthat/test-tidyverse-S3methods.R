@@ -2,11 +2,11 @@ context("Tidyverse methods for specific classes")
 
 test_that("ped class is preserved after dplyr operations", {
 
-  data("veteran", package = "survival")
-  veteran <- dplyr::slice(veteran, 1:2)
+  data("tumor")
+  tumor <- dplyr::slice(tumor, 2:3)
   ped <- as_ped(
-    data    = veteran,
-    formula = Surv(time, status) ~ trt + age,
+    data    = tumor,
+    formula = Surv(days, status) ~ complications + age,
     cut     = c(0, 100, 400),
     id      = "id")
 
@@ -63,5 +63,40 @@ test_that("nested_fdf class is preserved after tidyr operations", {
   expect_is(inner_join(distinct(sim_df, id), sim_df), "nested_fdf")
   sim_df$id[1] <- NA
   expect_is(fill(sim_df, id, .direction = "up"), "nested_fdf")
+
+})
+
+
+test_that("attributes are preserved", {
+  # recurrent events data
+  test_df <- data.frame(
+    id     = c(1,1, 2,2,2),
+    tstart = c(0, .5, 0, .8, 1.2),
+    tstop  = c(.5, 3, .8, 1.2, 3),
+    status = c(1, 0, 1, 1, 0),
+    enum   = c(1, 2, 1, 2, 3),
+    age    = c(50, 50, 24, 24, 24))
+  # GAP timescale
+  gap_df <- as_ped(
+    data       = test_df,
+    formula    = Surv(tstart, tstop, status)~ enum + age,
+    transition = "enum",
+    id         = "id",
+    timescale  = "gap")
+
+  expect_subset(names(attributes(gap_df)), c("names", "row.names", "class",
+    "breaks", "id_var", "intvars", "trafo_args", "time_var"))
+  expect_subset(
+    names(attributes(mutate(gap_df, age = 10))),
+    c("names", "row.names", "class", "breaks", "id_var", "intvars", "trafo_args",
+    "time_var"))
+  expect_subset(
+    names(attributes(group_by(gap_df, id))),
+    c("names", "row.names", "class", "breaks", "id_var", "intvars", "trafo_args",
+    "time_var", "groups"))
+  expect_subset(
+    names(attributes(ungroup(group_by(gap_df, id)))),
+    c("names", "row.names", "class", "breaks", "id_var", "intvars", "trafo_args",
+    "time_var"))
 
 })
