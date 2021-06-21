@@ -1,13 +1,13 @@
-1ece04af0edffcceacc538032f9e91e6 *DESCRIPTION
+1baaacc07b983cec7535e5d47fe88372 *DESCRIPTION
 ca61e01cf34f5d70bd57b9a4a30d24ec *LICENSE
 ec9288a1683d2c411089053e85bba072 *NAMESPACE
-a6bb3fc4065d8cee41955e1513d66981 *NEWS.md
+5b51b379c527ae563ca8f3ec5acbc356 *NEWS.md
 09c08c1f1a0773751d299d352291b545 *R/add-functions.R
 345246c8445095b9a6a4713d1d74e0e0 *R/as-ped.R
 9c364fc2796e9761e34e7aed2e79094d *R/convenience-plots.R
 b4bff026deac930d0896e7f14d8a8a93 *R/cumulative-coefficient.R
 67fe16331ac73ea62440316cf7c82253 *R/cumulative-effect.R
-297126c1e7840b0fabdcb70a23b0fcad *R/data.R
+f865afb03bef6884e35bef09089cedae *R/data.R
 c9b41750437947f465fd9686d71b71d3 *R/formula-specials.R
 fd88f3ad167d200070cdaaf5e5c1df95 *R/formula-utils.R
 078062e22a0c6cec0bc52e6f81b5be03 *R/geom-hazard.R
@@ -40,6 +40,7 @@ ca1ab5d83eefc2d5916e2fcbb8710aec *R/tidyverse-methods.R
 cd861391f588acae64c29e726da16245 *data/extub_tdc.rda
 35c1e5c5a412c5b0852e7a2d96c52b82 *data/patient.rda
 24f81952d659abe489d0df29a98b721d *data/simdf_elra.rda
+3d81b95c03378a3f9b7d69777fba5d9b *data/staph.rda
 c9cdaeccbdb50c2aa6fd97c440a8e404 *data/tumor.rda
 7b90e48bff176d7e2d50589d18b3df5c *inst/CITATION
 78ef86f015c95897021f0785e27b5f1f *man/add_cif.Rd
@@ -107,6 +108,7 @@ c4f365e8532c585205b5315f09576c5f *man/sim_pexp.Rd
 2278f59cb602a18ceeb3d30ffefebc79 *man/specials.Rd
 4fe38b6f0545770bfcf221732a686223 *man/split_data.Rd
 4d77ef1043d82c1dddfd59c64ef20277 *man/split_data_recurrent.Rd
+046f06801f17bd643fc4e93980d08c93 *man/staph.Rd
 6df42c3fd7140c481dec801fa28cd367 *man/tidiers.Rd
 00e7fbe06eb573be2e9a0333ed41aac4 *man/tidy_fixed.Rd
 d7bd704f2980cd65464de3983b18ffb3 *man/tidy_smooth.Rd

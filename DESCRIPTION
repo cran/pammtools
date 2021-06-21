@@ -1,8 +1,8 @@
 Package: pammtools
 Title: Piece-Wise Exponential Additive Mixed Modeling Tools for
         Survival Analysis
-Version: 0.5.6
-Date: 2021-03-18
+Version: 0.5.7
+Date: 2021-06-18
 Authors@R: c(
     person("Andreas", "Bender", , "andreas.bender@stat.uni-muenchen.de", role = c("aut", "cre"), comment=c(ORCID = "0000-0001-5628-8611")),
     person("Fabian", "Scheipl", , "fabian.scheipl@stat.uni-muenchen.de", role = c("aut"), comment = c(ORCID = "0000-0001-8172-3603")),
@@ -22,15 +22,15 @@ Imports: mgcv, survival (>= 2.39-5), checkmate, magrittr, rlang, tidyr
 Suggests: testthat
 License: MIT + file LICENSE
 LazyData: true
-URL: https://github.com/adibender/pammtools
+URL: https://adibender.github.io/pammtools/
 BugReports: https://github.com/adibender/pammtools/issues
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2021-03-29 10:00:03 UTC; ab
+Packaged: 2021-06-21 12:34:10 UTC; ab
 Author: Andreas Bender [aut, cre] (<https://orcid.org/0000-0001-5628-8611>),
   Fabian Scheipl [aut] (<https://orcid.org/0000-0001-8172-3603>),
   Philipp Kopper [aut] (<https://orcid.org/0000-0002-5037-7135>)
 Maintainer: Andreas Bender <andreas.bender@stat.uni-muenchen.de>
 Repository: CRAN
-Date/Publication: 2021-03-29 10:40:02 UTC
+Date/Publication: 2021-06-21 13:00:02 UTC
